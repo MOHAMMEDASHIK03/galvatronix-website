@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galvatronix | Premier IT Solutions & Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-blue: #0066ff;
+            --electric-blue: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --cyber-green: #00ff88;
+            
+            /* Background Colors */
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            
+            /* Text Colors */
+            --text-light: #ffffff;
+            --text-gray: #cccccc;
+            --text-muted: #888888;
+            
+            /* UI Elements */
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(20px);
+            
+            /* Animation Timing */
+            --transition-fast: 0.3s ease;
+            --transition-normal: 0.4s ease;
+            --transition-slow: 0.8s ease;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            
+            /* Z-index layers */
+            --z-header: 1000;
+            --z-modal: 2000;
+            --z-tooltip: 3000;
+            --z-notification: 4000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .gradient-bg {
+            background-image: linear-gradient(135deg, 
+                var(--dark-bg) 0%, 
+                var(--neon-purple) 50%, 
+                var(--primary-blue) 100%
+            );
+            background-attachment: fixed;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 5, 16, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .header-scrolled {
+            background: rgba(5, 5, 16, 0.95) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo img {
+            height: 44px;
+            margin-right: 12px;
+            transition: all 0.3s ease;
+            display: block;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        @media (min-width: 1024px) {
+            .logo img {
+                height: 60px;
+                margin-right: 14px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1023px) {
+            .logo img {
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 36px;
+                margin-right: 10px;
+            }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--electric-blue);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cta-button {
+            background: linear-gradient(90deg, var(--primary-blue), var(--neon-purple));
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--electric-blue);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .secondary-button:hover {
+            background: rgba(0, 204, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 204, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 204, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 136, 0.2) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--electric-blue);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .title-main {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .title-gradient {
+            background: linear-gradient(to right, var(--cyber-green), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 25px;
+            margin-top: 2rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .section-title p {
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(0, 102, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--electric-blue);
+            box-shadow: 0 20px 60px rgba(0, 204, 255, 0.2);
+        }
+
+        .service-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--electric-blue);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            color: var(--cyber-green);
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--electric-blue);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--electric-blue);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Innovative Solutions Section */
+        .solutions-section {
+            background: var(--darker-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solutions-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 204, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .solutions-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .solution-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyber-green);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .solution-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--cyber-green);
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover .solution-icon {
+            color: var(--electric-blue);
+            transform: scale(1.1);
+        }
+
+        .solution-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .solution-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .solution-features {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .solution-features li {
+            padding: 8px 0;
+            color: var(--text-gray);
+            position: relative;
+            padding-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .solution-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--cyber-green);
+            font-weight: bold;
+        }
+
+        .solution-features li:hover {
+            color: var(--text-light);
+        }
+
+        /* Technologies Section */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .tech-category {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .tech-category:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 15px 50px rgba(168, 85, 247, 0.2);
+        }
+
+        .tech-category h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--electric-blue);
+            font-weight: 700;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            padding: 8px 0;
+            color: var(--text-gray);
+            position: relative;
+            padding-left: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .tech-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--cyber-green);
+            font-size: 0.8rem;
+        }
+
+        .tech-list li:hover {
+            color: var(--text-light);
+        }
+
+        /* Contact Section - Fixed Styles */
+        .contact-content {
+            display: grid;
+            grid-template-columns: minmax(300px, 1fr) minmax(400px, 1fr);
+            gap: 40px; /* Reduced from 60px */
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .contact-info {
+            background: var(--card-bg);
+            padding: 25px; /* Reduced padding */
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            height: auto;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem; /* Slightly smaller */
+            margin-bottom: 1.2rem; /* Reduced margin */
+            color: var(--electric-blue);
+        }
+
+        .contact-details {
+            margin-top: 20px; /* Reduced from 30px */
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 12px; /* Reduced from 15px */
+            padding: 15px; /* Reduced from 20px */
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            color: var(--electric-blue);
+            font-size: 1.2rem;
+            min-width: 24px;
+            margin-top: 2px;
+        }
+
+        .contact-item h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .contact-item p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 25px; /* Reduced from 30px */
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            height: auto;
+        }
+
+        /* Form Styles - Fixed spacing */
+        .form-group {
+            margin-bottom: 15px; /* Reduced from 20px */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px; /* Reduced from 8px */
+            font-weight: 600;
+            color: var(--electric-blue);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px; /* Reduced padding */
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 100px; /* Reduced from 120px */
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px; /* Reduced from 14px */
+            background: linear-gradient(45deg, var(--primary-blue), var(--neon-purple));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px; /* Added small margin */
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px; /* Reduced from 20px */
+            margin-bottom: 0;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Footer - Fixed Newsletter Section */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+            gap: 25px; /* Reduced from 30px */
+            max-width: 1200px;
+            margin: 0 auto 24px;
+            align-items: start;
+        }
+
+        .footer-col {
+            min-width: 0;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-contact .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px; /* Reduced from 12px */
+            margin-bottom: 10px; /* Reduced from 12px */
+            color: var(--text-gray);
+            font-size: 0.9rem; /* Slightly smaller */
+            padding: 0;
+            background: transparent;
+        }
+
+        .footer-contact .contact-item i {
+            color: var(--electric-blue);
+            min-width: 16px;
+            margin-top: 2px;
+        }
+
+        /* Newsletter - Fixed spacing */
+        .newsletter {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px; /* Reduced from 12px */
+        }
+
+        .newsletter input[type="email"] {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .newsletter button {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(90deg, var(--primary-blue), var(--neon-purple));
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, rgba(5,5,16,0.95) 0%, rgba(5,5,16,0.9) 100%);
+            color: var(--text-gray);
+            padding: 60px 0 24px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            color: var(--text-gray);
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .footer-links h4,
+        .footer-contact h4 {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.92;
+            transition: color 0.18s ease, transform 0.18s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--electric-blue);
+            transform: translateX(6px);
+        }
+
+        .social-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .social-row a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            color: var(--text-light);
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .social-row a:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        }
+
+        /* Bottom row */
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Responsive Design for Contact Section */
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 30px; /* Further reduced for mobile */
+            }
+            
+            .contact-info,
+            .contact-form {
+                padding: 20px; /* Reduced padding for mobile */
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px; /* Reduced gap for mobile */
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px; /* Reduced gap for mobile */
+            }
+            
+            .newsletter {
+                margin-top: 10px; /* Reduced margin for mobile */
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .newsletter {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(120deg); }
+            66% { transform: translateY(5px) rotate(240deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 30px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            /* Dropdown directly below header spanning full width (small screens) */
+            nav ul {
+                position: absolute;
+                top: 100%;               /* below the fixed header */
+                left: 0;
+                right: 0;
+                width: 100%;
+                background: rgba(5,5,16,0.98);
+                backdrop-filter: blur(12px);
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 12px;
+                border-radius: 0 0 10px 10px;
+                transform-origin: top;
+                transform: scaleY(0);
+                transition: transform var(--transition-normal);
+                box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+                border-top: 1px solid rgba(255,255,255,0.04);
+                z-index: calc(var(--z-header) + 1);
+                max-height: calc(100vh - 60px);
+                overflow: auto;
+            }
+
+            nav ul.active {
+                transform: scaleY(1);
+            }
+ 
+             .mobile-menu-btn {
+                 display: block;
+             }
+ 
+             .stats-grid {
+                 grid-template-columns: 1fr;
+             }
+         }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            
+            .hero {
+                min-height: 80vh;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cta-button, .secondary-button {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .contact-form {
+                padding: var(--space-md);
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .service-card,
+            .solution-card,
+            .contact-form {
+                padding: 30px 20px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--electric-blue), var(--neon-purple));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, var(--neon-purple), var(--electric-blue));
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Updated Hero Title Styles */
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .title-main {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .title-gradient {
+            background: linear-gradient(to right, var(--cyber-green), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+        }
+
+        /* Remove these styles as they're no longer needed */
+        .cyber-text,
+        .cyber-gradient,
+        .title-wrap,
+        .title-line,
+        .gradient-title {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#home" class="logo">
+                <img src="logo1.png" alt="Galvatronix Logo">
+                Galva<span class="highlight">tronix</span>
+            </a>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#solutions">Innovative Solutions</a></li>
+                    <li><a href="#technologies">Technologies</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobile-menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero gradient-bg" id="home">
+        <div class="particles" id="particles"></div>
+        <div class="container hero-content">
+            <div class="hero-title fade-in">
+                <div class="title-main">Transforming Business Through</div>
+                <div class="title-gradient">Advanced Technology</div>
+            </div>
+            <p class="hero-subtitle fade-in">Galvatronix delivers cutting-edge IT solutions that drive innovation, efficiency, and exponential growth for businesses worldwide. From AI integration to quantum computing, we're your trusted technology evolution partner.</p>
+            <div class="hero-buttons fade-in">
+                <a href="#services" class="cta-button">Explore Solutions</a>
+                <a href="#contact" class="secondary-button">Start Your Journey</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About <span class="gradient-text">Galvatronix</span></h2>
+                <p>Pioneering the future of technology with innovative solutions that reshape industries and accelerate digital transformation.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Architecting Tomorrow's Technology Today</h2>
+                    <p>Founded with a vision to revolutionize how businesses leverage technology, Galvatronix has emerged as a global leader in advanced IT solutions. We combine quantum-level technical expertise with visionary thinking to deliver solutions that don't just meet current needs—they anticipate future possibilities.</p>
+                    
+                    <p>Our team of certified architects, engineers, and innovators brings decades of experience across cutting-edge industries, ensuring that we understand not just technology, but how it can be strategically applied to solve complex business challenges and unlock unprecedented growth.</p>
+                    
+                    <p>We pride ourselves on building transformative partnerships with forward-thinking organizations, providing continuous innovation and evolving our services to stay ahead of the rapidly changing technological landscape.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Expert Team</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Global Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="gradient-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our <span class="gradient-text">Advanced Services</span></h2>
+                <p>Comprehensive technology solutions designed to accelerate your digital transformation and competitive advantage.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-cloud"></i></div>
+                    <h3>Cloud Architecture & Migration</h3>
+                    <p>Advanced cloud solutions including multi-cloud orchestration, serverless computing, and intelligent cloud optimization across AWS, Azure, Google Cloud, and hybrid infrastructures.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>State-of-the-art web applications with responsive design, progressive enhancement, and modern frameworks for optimal user experience and performance.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-code"></i></div>
+                    <h3>Advanced Software Development</h3>
+                    <p>Custom enterprise applications, microservices architecture, progressive web apps, and blockchain solutions built with cutting-edge frameworks and methodologies.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-robot"></i></div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Intelligent automation, predictive analytics, computer vision, natural language processing, and deep learning solutions that transform data into competitive advantage.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Big Data & Analytics</h3>
+                    <p>Real-time data processing, advanced business intelligence, data lakes, machine learning pipelines, and interactive visualization platforms for data-driven decision making.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-server"></i></div>
+                    <h3>Infrastructure Modernization</h3>
+                    <p>Enterprise-grade infrastructure design, container orchestration, edge computing, IoT integration, and high-performance computing solutions with 24/7 monitoring.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Digital Transformation</h3>
+                    <p>Complete organizational transformation through process automation, legacy modernization, digital workflows, and technology strategy consulting.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Technology Training & Mentorship</h3>
+                    <p>Executive technology leadership programs, hands-on technical training, certification preparation, and ongoing mentorship for your development teams.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-infinity"></i></div>
+                    <h3>DevOps & Automation</h3>
+                    <p>CI/CD pipeline optimization, infrastructure as code, automated testing frameworks, container orchestration, and DevSecOps culture implementation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovative Solutions Section -->
+    <section id="solutions" class="solutions-section">
+        <div class="container solutions-container">
+            <div class="section-title">
+                <h2>Our <span class="gradient-text">Innovative Solutions</span></h2>
+                <p>Revolutionary approaches and breakthrough technologies that redefine what's possible in the digital landscape.</p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Quantum AI Integration</h3>
+                    <p>Harness the power of quantum computing combined with artificial intelligence to solve previously intractable business problems and unlock new capabilities.</p>
+                    <ul class="solution-features">
+                        <li>Quantum machine learning algorithms</li>
+                        <li>Optimization of complex systems</li>
+                        <li>Advanced pattern recognition</li>
+                        <li>Predictive modeling at quantum scale</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-shield-virus"></i></div>
+                    <h3>Autonomous Cyber Defense</h3>
+                    <p>Self-learning security systems that adapt in real-time to emerging threats, providing proactive protection against even the most sophisticated attacks.</p>
+                    <ul class="solution-features">
+                        <li>AI-powered threat intelligence</li>
+                        <li>Behavioral anomaly detection</li>
+                        <li>Automated incident response</li>
+                        <li>Zero-trust architecture implementation</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Edge Intelligence Networks</h3>
+                    <p>Distributed computing architectures that bring processing power closer to data sources, enabling real-time decision making and reducing latency.</p>
+                    <ul class="solution-features">
+                        <li>Federated learning systems</li>
+                        <li>Edge-to-cloud orchestration</li>
+                        <li>IoT data processing at scale</li>
+                        <li>5G-enabled edge computing</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-cube"></i></div>
+                    <h3>Digital Twin Ecosystems</h3>
+                    <p>Create virtual replicas of physical systems, processes, and organizations to simulate, predict, and optimize performance in a risk-free environment.</p>
+                    <ul class="solution-features">
+                        <li>Real-time synchronization</li>
+                        <li>Predictive maintenance modeling</li>
+                        <li>Scenario planning and simulation</li>
+                        <li>Integration with IoT sensors</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Blockchain Enterprise Solutions</h3>
+                    <p>Secure, transparent, and decentralized systems that revolutionize how organizations manage transactions, contracts, and data integrity.</p>
+                    <ul class="solution-features">
+                        <li>Smart contract implementation</li>
+                        <li>Supply chain transparency</li>
+                        <li>Decentralized identity management</li>
+                        <li>Tokenization of assets</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon"><i class="fas fa-user-astronaut"></i></div>
+                    <h3>Immersive Experience Platforms</h3>
+                    <p>Next-generation augmented and virtual reality solutions that transform how customers interact with your brand and employees collaborate.</p>
+                    <ul class="solution-features">
+                        <li>AR-powered customer experiences</li>
+                        <li>VR training and simulation</li>
+                        <li>Mixed reality collaboration tools</li>
+                        <li>Spatial computing applications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies">
+        <div class="container">
+            <div class="section-title">
+                <h2>Cutting-Edge <span class="gradient-text">Technologies</span></h2>
+                <p>We leverage the most advanced technologies and frameworks to deliver exceptional results that exceed expectations.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3>Programming Languages</h3>
+                    <ul class="tech-list">
+                        <li>Python & Advanced ML Libraries</li>
+                        <li>JavaScript/TypeScript/Node.js</li>
+                        <li>Java & Spring Ecosystem</li>
+                        <li>C#/.NET Core & .NET 6+</li>
+                        <li>Go & Rust for Performance</li>
+                        <li>Kotlin & Swift for Mobile</li>
+                    </ul>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Cloud & Infrastructure</h3>
+                    <ul class="tech-list">
+                        <li>Amazon Web Services (AWS)</li>
+                        <li>Microsoft Azure Cloud</li>
+                        <li>Google Cloud Platform</li>
+                        <li>Kubernetes & Docker</li>
+                        <li>Terraform & Ansible</li>
+                        <li>Edge Computing Solutions</li>
+                    </ul>
+                </div>
+
+                <div class="tech-category">
+                    <h3>AI & Machine Learning</h3>
+                    <ul class="tech-list">
+                        <li>TensorFlow & PyTorch</li>
+                        <li>OpenAI GPT & Custom LLMs</li>
+                        <li>Computer Vision (OpenCV)</li>
+                        <li>Natural Language Processing</li>
+                        <li>MLOps & Model Deployment</li>
+                        <li>Quantum Computing (Qiskit)</li>
+                    </ul>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Frontend Frameworks</h3>
+                    <ul class="tech-list">
+                        <li>React & Next.js</li>
+                        <li>Angular & Vue.js</li>
+                        <li>Svelte & SvelteKit</li>
+                        <li>React Native & Flutter</li>
+                        <li>Progressive Web Apps</li>
+                        <li>WebAssembly (WASM)</li>
+                    </ul>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Databases & Storage</h3>
+                    <ul class="tech-list">
+                        <li>PostgreSQL & TimescaleDB</li>
+                        <li>MongoDB & CouchDB</li>
+                        <li>Redis & Elasticsearch</li>
+                        <li>Neo4j Graph Database</li>
+                        <li>Apache Cassandra</li>
+                        <li>Blockchain & IPFS</li>
+                    </ul>
+                </div>
+
+                <div class="tech-category">
+                    <h3>DevOps & Automation</h3>
+                    <ul class="tech-list">
+                        <li>Jenkins & GitHub Actions</li>
+                        <li>GitLab CI/CD</li>
+                        <li>Prometheus & Grafana</li>
+                        <li>ELK Stack (Elasticsearch)</li>
+                        <li>Istio Service Mesh</li>
+                        <li>Chaos Engineering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="gradient-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Connect With <span class="gradient-text">Our Experts</span></h2>
+                <p>Ready to accelerate your digital transformation? Let's discuss how Galvatronix can revolutionize your technology landscape.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p>Our team of technology specialists is ready to understand your unique challenges and craft solutions that drive exponential growth. Reach out to begin your transformation journey.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h4>Global Headquarters</h4>
+                                <p>Galvatronix Technology Center<br>456 Innovation Boulevard<br>Silicon Valley, CA 94025</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <div>
+                                <h4>Direct Contact</h4>
+                                <p>+91 638-594-3811<br></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h4>Email Channels</h4>
+                                <p>galvatronixtechnologies@gmail.com<br></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                            <div>
+                                <h4>Availability</h4>
+                                <p>Monday-Friday: 8:00 AM - 8:00 PM PST<br>24/7 Emergency Support Available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your business email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" name="company" placeholder="Enter your company name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="position">Your Position</label>
+                            <input type="text" id="position" name="position" placeholder="e.g., CTO, IT Director, CEO">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Project Details & Requirements *</label>
+                        <textarea id="message" name="message" placeholder="Please describe your project requirements, current challenges, and goals in detail..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-rocket"></i> Launch Your Project
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">Galva<span class="gradient-text">tronix</span></div>
+                <p class="footer-desc">Galvatronix Technologies provides enterprise-grade IT solutions and strategic advisory to accelerate digital transformation. We combine deep technical expertise with industry experience to deliver measurable results.</p>
+                <div class="social-row" aria-label="Social links">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Cloud & Infrastructure</a></li>
+                    <li><a href="#services">AI & Machine Learning</a></li>
+                    <li><a href="#services">DevOps & Automation</a></li>
+                    <li><a href="#services">Digital Transformation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Security & Compliance</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-contact">
+                <h4>Contact & Newsletter</h4>
+                <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div>456 Innovation Boulevard, Silicon Valley, CA 94025</div></div>
+                <div class="contact-item"><i class="fas fa-phone"></i><div>+91 638-594-3811</div></div>
+                <div class="contact-item"><i class="fas fa-envelope"></i><div>galvatronixtechnologies@gmail.com</div></div>
+
+                <form class="newsletter" id="newsletterForm">
+                    <input type="email" placeholder="Your business email" aria-label="Email for newsletter" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Galvatronix Technologies Inc. All rights reserved.</p>
+            <p>Privacy Policy &nbsp; | &nbsp; Terms of Service</p>
+        </div>
+    </footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Header scroll effect
+    const header = document.querySelector('header');
+    let lastScroll = 0;
+
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    const handleScroll = debounce(() => {
+        if (window.scrollY > 100) {
+            header.classList.add('header-scrolled');
+        } else {
+            header.classList.remove('header-scrolled');
+        }
+    }, 16);
+    window.addEventListener('scroll', handleScroll);
+
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    mobileMenu.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        if (window.innerWidth >= 992) {
+            body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        } else {
+            body.style.overflow = '';
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active') && 
+            !e.target.closest('nav') && 
+            !e.target.closest('.mobile-menu-btn')) {
+            navMenu.classList.remove('active');
+            body.style.overflow = '';
+        }
+    });
+
+    // Particle background
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 80;
+    const colors = ['#0066ff', '#00ccff', '#a855f7', '#ec4899', '#00ff88'];
+
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 8 + 2;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 20 + 10;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        Object.assign(particle.style, {
+            width: `${size}px`,
+            height: `${size}px`,
+            left: `${posX}%`,
+            top: `${posY}%`,
+            animationDelay: `${delay}s`,
+            animationDuration: `${duration}s`,
+            background: color,
+            boxShadow: `0 0 20px ${color}`
+        });
+        return particle;
+    }
+    for (let i = 0; i < particleCount; i++) {
+        particlesContainer.appendChild(createParticle());
+    }
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('fade-in');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.service-card, .tech-category, .stat-item, .solution-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s ease';
+        observer.observe(el);
+    });
+
+    // Contact form validation + Nodemailer backend call
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const name = formData.get('name').trim();
+        const email = formData.get('email').trim();
+        const company = formData.get('company').trim();
+        const position = formData.get('position').trim();
+        const message = formData.get('message').trim();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!name || !email || !message) return showNotification('Please fill in all required fields.', 'error');
+        if (!emailRegex.test(email)) return showNotification('Please enter a valid email address.', 'error');
+        if (message.length < 20) return showNotification('Please provide more details (min 20 chars).', 'error');
+
+        sendEmail(name, email, company, position, message);
+    });
+
+    // Newsletter form submission
+    const newsletterForm = document.getElementById('newsletterForm');
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) return showNotification('Please enter your email.', 'error');
+        if (!emailRegex.test(email)) return showNotification('Invalid email.', 'error');
+        subscribeToNewsletter(email);
+    });
+
+    // ✅ Updated: Send email through Nodemailer backend (replaces EmailJS)
+    function sendEmail(name, email, company, position, message) {
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+
+        fetch("http://localhost:5000/send-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, company, position, message }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(`Thank you, ${name}! Your message has been sent.`, 'success');
+                contactForm.reset();
+            } else {
+                showNotification('Error sending message. Try again later.', 'error');
+            }
+        })
+        .catch(() => showNotification('Server error. Please try again later.', 'error'))
+        .finally(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    }
+
+    // Newsletter mock (you can later connect to backend)
+    function subscribeToNewsletter(email) {
+        const submitBtn = newsletterForm.querySelector('button');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Subscribing...';
+        submitBtn.disabled = true;
+        setTimeout(() => {
+            showNotification('Thanks for subscribing to our newsletter!', 'success');
+            newsletterForm.reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 1500);
+    }
+
+    // Notifications
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(45deg, #00ff88, #00ccff)' : 'linear-gradient(45deg, #ff4444, #ff6b6b)'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: 400px;
+                animation: slideInRight 0.5s ease;
+            ">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                ${message}
+            </div>`;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.5s ease';
+            setTimeout(() => notification.remove(), 500);
+        }, 4000);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight - 20;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Hero typing animation (optional)
+    const heroTitle = document.querySelector('.hero h1');
+    if (heroTitle) {
+        const text = heroTitle.innerHTML;
+        heroTitle.innerHTML = '';
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                heroTitle.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        setTimeout(typeWriter, 1000);
+    }
+});
+</script>
+
+</body>
+</html>
