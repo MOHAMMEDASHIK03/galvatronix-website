@@ -1668,7 +1668,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Header scroll effect
     const header = document.querySelector('header');
-    let lastScroll = 0;
 
     function debounce(func, wait) {
         let timeout;
@@ -1792,14 +1791,14 @@ document.addEventListener('DOMContentLoaded', function() {
         subscribeToNewsletter(email);
     });
 
-    // ✅ Updated: Send email through Nodemailer backend (replaces EmailJS)
+    // 🚀 UPDATED — Correct Render URL (no localhost)
     function sendEmail(name, email, company, position, message) {
         const submitBtn = contactForm.querySelector('.submit-btn');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitBtn.disabled = true;
 
-        fetch("http://localhost:5000/send-email", {
+        fetch("/send-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, company, position, message }),
@@ -1820,7 +1819,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Newsletter mock (you can later connect to backend)
+    // Newsletter mock
     function subscribeToNewsletter(email) {
         const submitBtn = newsletterForm.querySelector('button');
         const originalText = submitBtn.innerHTML;
@@ -1862,6 +1861,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
 
+    // Notification CSS
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -1881,24 +1881,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Hero typing animation (optional)
-    const heroTitle = document.querySelector('.hero h1');
-    if (heroTitle) {
-        const text = heroTitle.innerHTML;
-        heroTitle.innerHTML = '';
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                heroTitle.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            }
-        }
-        setTimeout(typeWriter, 1000);
-    }
 });
 </script>
 
 </body>
+
 </html>
