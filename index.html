@@ -6,6 +6,7 @@
     <title>Galvatronix | Premier IT Solutions & Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <style>
         :root {
             /* Core Colors */
@@ -1666,7 +1667,15 @@
     </footer>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Header scroll effect
+
+    /* -------------------------------------------------------
+       INITIALIZE EMAILJS
+    -------------------------------------------------------- */
+    emailjs.init("oFRd00rwvCr4lmCy4"); // YOUR PUBLIC KEY
+
+    /* -------------------------------------------------------
+       HEADER SCROLL EFFECT
+    -------------------------------------------------------- */
     const header = document.querySelector('header');
 
     function debounce(func, wait) {
@@ -1682,38 +1691,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const handleScroll = debounce(() => {
-        if (window.scrollY > 100) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
-        }
+        if (window.scrollY > 100) header.classList.add('header-scrolled');
+        else header.classList.remove('header-scrolled');
     }, 16);
+
     window.addEventListener('scroll', handleScroll);
 
-    // Mobile menu toggle
+    /* -------------------------------------------------------
+       MOBILE MENU
+    -------------------------------------------------------- */
     const mobileMenu = document.getElementById('mobile-menu');
     const navMenu = document.getElementById('nav-menu');
     const body = document.body;
 
     mobileMenu.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        if (window.innerWidth >= 992) {
-            body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-        } else {
-            body.style.overflow = '';
-        }
+        body.style.overflow = window.innerWidth >= 992 && navMenu.classList.contains('active')
+            ? 'hidden' : '';
     });
 
     document.addEventListener('click', (e) => {
-        if (navMenu.classList.contains('active') && 
-            !e.target.closest('nav') && 
+        if (navMenu.classList.contains('active') &&
+            !e.target.closest('nav') &&
             !e.target.closest('.mobile-menu-btn')) {
             navMenu.classList.remove('active');
             body.style.overflow = '';
         }
     });
 
-    // Particle background
+    /* -------------------------------------------------------
+       PARTICLE BACKGROUND
+    -------------------------------------------------------- */
     const particlesContainer = document.getElementById('particles');
     const particleCount = 80;
     const colors = ['#0066ff', '#00ccff', '#a855f7', '#ec4899', '#00ff88'];
@@ -1727,6 +1735,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const delay = Math.random() * 10;
         const duration = Math.random() * 20 + 10;
         const color = colors[Math.floor(Math.random() * colors.length)];
+
         Object.assign(particle.style, {
             width: `${size}px`,
             height: `${size}px`,
@@ -1735,15 +1744,19 @@ document.addEventListener('DOMContentLoaded', function() {
             animationDelay: `${delay}s`,
             animationDuration: `${duration}s`,
             background: color,
-            boxShadow: `0 0 20px ${color}`
+            boxShadow: `0 0 20px ${color}`,
         });
+
         return particle;
     }
+
     for (let i = 0; i < particleCount; i++) {
         particlesContainer.appendChild(createParticle());
     }
 
-    // Scroll animations
+    /* -------------------------------------------------------
+       SCROLL ANIMATIONS
+    -------------------------------------------------------- */
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1752,138 +1765,150 @@ document.addEventListener('DOMContentLoaded', function() {
                 entry.target.classList.add('fade-in');
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.service-card, .tech-category, .stat-item, .solution-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.8s ease';
-        observer.observe(el);
-    });
+    document.querySelectorAll('.service-card, .tech-category, .stat-item, .solution-card')
+        .forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
 
-    // Contact form validation + Nodemailer backend call
+    /* -------------------------------------------------------
+       CONTACT FORM + EMAILJS
+    -------------------------------------------------------- */
     const contactForm = document.getElementById('contactForm');
+
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
+
         const formData = new FormData(this);
+
         const name = formData.get('name').trim();
         const email = formData.get('email').trim();
         const company = formData.get('company').trim();
         const position = formData.get('position').trim();
         const message = formData.get('message').trim();
 
+        // Validations
+        if (!name || !email || !message)
+            return showNotification("Please fill all required fields.", "error");
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!name || !email || !message) return showNotification('Please fill in all required fields.', 'error');
-        if (!emailRegex.test(email)) return showNotification('Please enter a valid email address.', 'error');
-        if (message.length < 20) return showNotification('Please provide more details (min 20 chars).', 'error');
+        if (!emailRegex.test(email))
+            return showNotification("Invalid email address.", "error");
+
+        if (message.length < 20)
+            return showNotification("Please enter at least 20 characters.", "error");
 
         sendEmail(name, email, company, position, message);
     });
 
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletterForm');
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input[type="email"]').value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email) return showNotification('Please enter your email.', 'error');
-        if (!emailRegex.test(email)) return showNotification('Invalid email.', 'error');
-        subscribeToNewsletter(email);
-    });
-
-    // 🚀 UPDATED — Correct Render URL (no localhost)
     function sendEmail(name, email, company, position, message) {
         const submitBtn = contactForm.querySelector('.submit-btn');
         const originalText = submitBtn.innerHTML;
+
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitBtn.disabled = true;
 
-        fetch("/send-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, company, position, message }),
+        emailjs.send(
+            "service_gfkdn8r",
+            "template_r44hjfh",
+            { name, email, company, position, message }
+        )
+        .then(() => {
+            showNotification(`Thank you, ${name}! Your message has been sent.`, "success");
+            contactForm.reset();
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showNotification(`Thank you, ${name}! Your message has been sent.`, 'success');
-                contactForm.reset();
-            } else {
-                showNotification('Error sending message. Try again later.', 'error');
-            }
+        .catch(() => {
+            showNotification("Failed to send message. Try again later.", "error");
         })
-        .catch(() => showNotification('Server error. Please try again later.', 'error'))
         .finally(() => {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         });
     }
 
-    // Newsletter mock
-    function subscribeToNewsletter(email) {
-        const submitBtn = newsletterForm.querySelector('button');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = 'Subscribing...';
-        submitBtn.disabled = true;
-        setTimeout(() => {
-            showNotification('Thanks for subscribing to our newsletter!', 'success');
-            newsletterForm.reset();
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 1500);
-    }
+    /* -------------------------------------------------------
+       NEWSLETTER SUBSCRIBE (Mock)
+    -------------------------------------------------------- */
+    const newsletterForm = document.getElementById('newsletterForm');
 
-    // Notifications
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input').value.trim();
+
+        if (!email)
+            return showNotification("Please enter your email.", "error");
+
+        showNotification("Subscribed successfully!", "success");
+        newsletterForm.reset();
+    });
+
+    /* -------------------------------------------------------
+       NOTIFICATIONS
+    -------------------------------------------------------- */
     function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? 'linear-gradient(45deg, #00ff88, #00ccff)' : 'linear-gradient(45deg, #ff4444, #ff6b6b)'};
-                color: white;
-                padding: 15px 25px;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                z-index: 10000;
-                max-width: 400px;
-                animation: slideInRight 0.5s ease;
-            ">
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                ${message}
-            </div>`;
-        document.body.appendChild(notification);
+        const box = document.createElement("div");
+        box.style = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            color: #fff;
+            border-radius: 10px;
+            z-index: 9999;
+            max-width: 300px;
+            font-size: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: ${
+                type === "success"
+                    ? "linear-gradient(45deg,#00ff88,#00ccff)"
+                    : "linear-gradient(45deg,#ff4444,#ff6b6b)"
+            };
+            animation: slideIn .5s ease;
+        `;
+        box.innerHTML = `
+            <i class="fas ${type === "success" ? "fa-check-circle" : "fa-exclamation-circle"}"></i>
+            &nbsp; ${message}
+        `;
+
+        document.body.appendChild(box);
+
         setTimeout(() => {
-            notification.style.animation = 'slideOutRight 0.5s ease';
-            setTimeout(() => notification.remove(), 500);
-        }, 4000);
+            box.style.animation = "slideOut .5s ease";
+            setTimeout(() => box.remove(), 400);
+        }, 3000);
     }
 
-    // Notification CSS
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
     `;
     document.head.appendChild(style);
 
-    // Smooth scrolling
+    /* -------------------------------------------------------
+       SMOOTH SCROLLING
+    -------------------------------------------------------- */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = target.offsetTop - headerHeight - 20;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            const targetEl = document.querySelector(this.getAttribute('href'));
+            if (targetEl) {
+                const offset = document.querySelector('header').offsetHeight;
+                window.scrollTo({
+                    top: targetEl.offsetTop - offset - 20,
+                    behavior: 'smooth'
+                });
             }
         });
     });
+
 });
 </script>
-
 </body>
 
 </html>
+
