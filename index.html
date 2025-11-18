@@ -68,10 +68,10 @@
         }
 
         .container {
-            width: 100%;
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 16px;
+            padding: 0 20px;
         }
 
         section {
@@ -158,13 +158,6 @@
                 height: 36px;
                 margin-right: 10px;
             }
-        }
-
-        /* Make images responsive across breakpoints */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
         }
 
         nav ul {
@@ -312,19 +305,6 @@
             position: relative;
             z-index: 2;
             max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: flex-start;
-            padding: 0 8px;
-        }
-
-        /* Center hero content on smaller screens */
-        @media (max-width: 768px) {
-            .hero-content {
-                align-items: center;
-                padding: 0 12px;
-            }
         }
 
         .hero-title {
@@ -990,49 +970,24 @@
                 grid-template-columns: 1fr;
                 gap: 30px; /* Further reduced for mobile */
             }
+            
             .contact-info,
             .contact-form {
                 padding: 20px; /* Reduced padding for mobile */
             }
+            
             .form-row {
                 flex-direction: column;
                 gap: 10px; /* Reduced gap for mobile */
             }
+            
             .footer-grid {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-                width: 100%;
-                padding: 0 16px;
-                text-align: center;
+                grid-template-columns: 1fr;
+                gap: 20px; /* Reduced gap for mobile */
             }
-            .footer-col {
-                width: 100%;
-                max-width: 100%;
-                margin: 0 auto;
-            }
-            .footer-contact .contact-item {
-                justify-content: center;
-            }
+            
             .newsletter {
                 margin-top: 10px; /* Reduced margin for mobile */
-                width: 100%;
-                max-width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .newsletter input[type="email"],
-            .newsletter button {
-                width: 100%;
-                box-sizing: border-box;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-                text-align: center;
-                padding: 0 16px;
             }
         }
 
@@ -1263,7 +1218,14 @@
         .gradient-title {
             display: none;
         }
-    </style>
+    
+/* Fix: Show 3 cards per row in Innovative Solutions on large screens */
+@media (min-width: 1024px) {
+    .solutions-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+</style>
 </head>
 <body>
     <!-- Header -->
@@ -1283,7 +1245,7 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <button class="mobile-menu-btn" id="mobile-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+            <button class="mobile-menu-btn" id="mobile-menu"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
@@ -1751,11 +1713,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mobileMenu.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        const isOpen = navMenu.classList.contains('active');
-        // prevent background scroll when nav is open on small screens
-        body.style.overflow = window.innerWidth >= 992 && isOpen ? 'hidden' : '';
-        // update accessible state
-        mobileMenu.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        body.style.overflow = window.innerWidth >= 992 && navMenu.classList.contains('active')
+            ? 'hidden' : '';
     });
 
     document.addEventListener('click', (e) => {
@@ -1764,7 +1723,6 @@ document.addEventListener('DOMContentLoaded', function() {
             !e.target.closest('.mobile-menu-btn')) {
             navMenu.classList.remove('active');
             body.style.overflow = '';
-            mobileMenu.setAttribute('aria-expanded', 'false');
         }
     });
 
