@@ -160,6 +160,13 @@
             }
         }
 
+        /* Make images responsive across breakpoints */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -305,6 +312,19 @@
             position: relative;
             z-index: 2;
             max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 0 8px;
+        }
+
+        /* Center hero content on smaller screens */
+        @media (max-width: 768px) {
+            .hero-content {
+                align-items: center;
+                padding: 0 12px;
+            }
         }
 
         .hero-title {
@@ -1238,7 +1258,7 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <button class="mobile-menu-btn" id="mobile-menu"><i class="fas fa-bars"></i></button>
+            <button class="mobile-menu-btn" id="mobile-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
@@ -1706,8 +1726,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mobileMenu.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        body.style.overflow = window.innerWidth >= 992 && navMenu.classList.contains('active')
-            ? 'hidden' : '';
+        const isOpen = navMenu.classList.contains('active');
+        // prevent background scroll when nav is open on small screens
+        body.style.overflow = window.innerWidth >= 992 && isOpen ? 'hidden' : '';
+        // update accessible state
+        mobileMenu.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
     document.addEventListener('click', (e) => {
@@ -1716,6 +1739,7 @@ document.addEventListener('DOMContentLoaded', function() {
             !e.target.closest('.mobile-menu-btn')) {
             navMenu.classList.remove('active');
             body.style.overflow = '';
+            mobileMenu.setAttribute('aria-expanded', 'false');
         }
     });
 
@@ -1911,5 +1935,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
-
 
