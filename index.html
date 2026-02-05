@@ -134,25 +134,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px 0 0; /* Zero left padding for left corner alignment */
         }
 
         .logo {
             display: flex;
             align-items: center;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
             text-decoration: none;
             color: var(--text-light);
+            padding-left: 10px; /* Minimal padding for left corner */
         }
 
         .logo img {
-            height: 36px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 12px;
             transition: all 0.3s ease;
             display: block;
             object-fit: contain;
             vertical-align: middle;
+        }
+
+        .logo span {
+            color: var(--electric-blue);
+            font-weight: 700;
         }
 
         nav ul {
@@ -1230,6 +1237,15 @@
             .stat-number {
                 font-size: 2rem;
             }
+            
+            .logo {
+                padding-left: 5px;
+            }
+            
+            .logo img {
+                height: 40px;
+                margin-right: 8px;
+            }
         }
 
         /* Performance optimizations for mobile */
@@ -1251,6 +1267,45 @@
                 border-width: 0.5px;
             }
         }
+
+        
+/* ===============================
+   HEADER MOBILE DECONGEST FIX
+================================ */
+@media (max-width: 768px) {
+
+    header {
+        padding: 6px 0;
+    }
+
+    .header-content {
+        padding: 0 12px;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 1.2rem;   /* reduce text size */
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    .logo img {
+        height: 34px;       /* reduce logo size */
+        margin-right: 6px;
+    }
+
+    .logo span {
+        display: none;      /* hide "Technologies" on mobile */
+    }
+
+    .mobile-menu-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -1259,7 +1314,7 @@
         <div class="container header-content">
             <a href="#home" class="logo">
                 <img src="logo1.png" alt="Galvatronix Logo">
-                Galva<span class="highlight">tronix</span>
+                Galvatronix <span>Technologies</span>
             </a>
             <div class="mobile-nav-overlay" id="mobile-overlay"></div>
             <nav>
@@ -1651,18 +1706,25 @@
 
     <!-- Footer -->
     <footer>
+    <div class="container">
         <div class="footer-grid">
+
+            <!-- Brand -->
             <div class="footer-col">
                 <div class="footer-logo">Galva<span class="gradient-text">tronix</span></div>
-                <p class="footer-desc">Galvatronix Technologies provides enterprise-grade IT solutions and strategic advisory to accelerate digital transformation. We combine deep technical expertise with industry experience to deliver measurable results.</p>
-                <div class="social-row" aria-label="Social links">
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <p class="footer-desc">
+                    Galvatronix Technologies delivers enterprise-grade IT solutions, AI automation,
+                    and digital transformation services to help businesses scale securely and efficiently.
+                </p>
+
+                <div class="social-row">
+                    <a href="https://www.linkedin.com/company/galvatronix-technologies/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/galvatronix_technologies?igsh=MTUwY29hOWRhcTJ3Zg==" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 
+            <!-- Services -->
             <div class="footer-col footer-links">
                 <h4>Services</h4>
                 <ul>
@@ -1673,6 +1735,7 @@
                 </ul>
             </div>
 
+            <!-- Resources -->
             <div class="footer-col footer-links">
                 <h4>Resources</h4>
                 <ul>
@@ -1683,24 +1746,48 @@
                 </ul>
             </div>
 
+            <!-- Contact + Newsletter -->
             <div class="footer-col footer-contact">
-                <h4>Contact & Newsletter</h4>
-                <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div>230, burgur road Anthiyur, Erode ,TamilNadu-638501, India</div></div>
-                <div class="contact-item"><i class="fas fa-phone"></i><div>+91 638-594-3811</div></div>
-                <div class="contact-item"><i class="fas fa-envelope"></i><div>galvatronixtechnologies@gmail.com</div></div>
+                <h4>Contact</h4>
+
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>230, Burgur Road, Anthiyur, Erode, Tamil Nadu – 638501, India</span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 638-594-3811</span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>galvatronixtechnologies@gmail.com</span>
+                </div>
 
                 <form class="newsletter" id="newsletterForm">
-                    <input type="email" placeholder="Your business email" aria-label="Email for newsletter" required>
-                    <button type="submit">Subscribe</button>
+                    <label class="newsletter-label">Subscribe to our newsletter</label>
+                    <div class="newsletter-row">
+                        <input type="email" placeholder="Business email address" required>
+                        <button type="submit">Subscribe</button>
+                    </div>
                 </form>
             </div>
+
         </div>
 
+        <!-- Bottom -->
         <div class="footer-bottom">
-            <p>&copy; 2025 Galvatronix Technologies Inc. All rights reserved.</p>
-            <p>Privacy Policy &nbsp; | &nbsp; Terms of Service</p>
+            <p>© 2025 Galvatronix Technologies Inc. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a>
+                <span>|</span>
+                <a href="#">Terms of Service</a>
+            </p>
         </div>
-    </footer>
+    </div>
+</footer>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -1970,4 +2057,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
